@@ -340,19 +340,20 @@ int main() {
 }
 
 void task1() {
-  bool fileExists = false;
-  while (!fileExists) {
-    string fileID = getInputFileID();
+  string fileID;
+  string inputFileName;
+  ifstream inFile;
+  while (true) {
+    fileID = getInputFileID();
     if (fileID.empty()) {
       return;
     }
-    string inputFileName = "input" + fileID + ".txt";
-    ifstream inFile(inputFileName);
+    inputFileName = "input" + fileID + ".txt";
+    inFile.open(inputFileName);
     if (!inFile) {
-      cout << endl << "### " << inputFileName << " does not exist! ###" << endl << endl;
-      continue;
+      cout << endl << "### " << inputFileName << " does not exist! ###" << endl;
     } else {
-      fileExists = true;
+      break;
     }
 
   }

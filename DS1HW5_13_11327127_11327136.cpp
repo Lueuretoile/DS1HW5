@@ -22,7 +22,6 @@ struct Pokemon {
   int generation;
   bool legendary;
 };
-extern vector<Pokemon> pokemonDatabase;
 struct BSTNode {
   int hp;
   vector<int> pokemonIDs;
@@ -67,7 +66,8 @@ class BST {
   BSTNode* buildBalanced(int left, int right);    // build balanced tree
   vector<BSTNode*> inorderNodes;
 };
-
+vector<Pokemon> pokemonDatabase;
+BST bst;
 void BST::deleteSubtree(BSTNode* t) {
   if (t != nullptr) {
     deleteSubtree(t->left);
@@ -99,7 +99,7 @@ BSTNode* BST::insert(BSTNode* t, int hp, int id) {
 
 void BST::insert(int hp, int id) {
   root_m = insert(root_m, hp, id);
-};
+}
 
 int BST::height(BSTNode* t) const {
   if (t == nullptr) {
@@ -112,7 +112,7 @@ int BST::height(BSTNode* t) const {
 
 int BST::getHeight() const {
   return height(root_m);
-};
+}
 
 int BST::getMaxHP() const {
   BSTNode* maxNode = findMax(root_m);
@@ -221,7 +221,7 @@ void BST::rangeSearch(int min, int max, vector<int>& results, int& visitedCount)
   rangeSearch(root_m, min, max, visitedCount, results);
 }
 
-vector<BSTNode*> inorderNodes;
+
 void BST::inorderCollect(BSTNode* t) {
   if (t == nullptr) return;
   inorderCollect(t->left);
@@ -248,6 +248,7 @@ void BST::buildBalancedTree() {
   if (inorderNodes.empty()) return;
 
   root_m = buildBalanced(0, inorderNodes.size() - 1);
+  inorderNodes.clear();
 }
 
 void BST::printLevelOrder() {
@@ -306,7 +307,7 @@ void ReadInput(int &command) {
     cout << endl << "Command does not exist!" << endl << endl;
     return;
   }
-};
+}
 string getInputFileID() {  
   string id;
   cout << endl << "Input a file number [0: quit]: ";
@@ -327,10 +328,9 @@ void showMenu() {
   cout << "* 3. Delete the min on HP field  *" << endl;
   cout << "* 4. Rebuild the balanced HP BST *" << endl;
   cout << "**********************************" << endl;
-};
+}
 // 全域變數
-vector<Pokemon> pokemonDatabase;
-BST bst;
+
 bool deleteMinFlag = true;
 
 int main() {
@@ -428,7 +428,7 @@ void task1() {
   } 
   cout << "HP tree height = " << bst.getHeight() << endl << endl;
   deleteMinFlag = true;
-};
+}
 
 int task2_RangeInput() {
   int inputHP = -1;
@@ -456,7 +456,7 @@ int task2_RangeInput() {
       cout << "Try again: ";
     }
   }
-};
+}
 
 void task2() {
   if (pokemonDatabase.empty()) {
@@ -508,7 +508,7 @@ void task2() {
          << p.HP << "\t" << p.attack << "\t" << p.defense << endl;
   }
   cout << "Number of visited nodes = " << visitedCount << endl << endl;
-};
+}
 
 void task3() {
   if (pokemonDatabase.empty() || bst.isEmpty()) {
@@ -547,7 +547,7 @@ void task3() {
     cout << "----- Execute Mission 1 first! -----" << endl << endl;
   }
 
-};
+}
 
 void task4() {
   if (bst.isEmpty()) {

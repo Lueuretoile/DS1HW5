@@ -447,6 +447,10 @@ void task3() {
   } else {
     deletedIDs = bst.deleteMax();
   }
+
+  // 切換刪除標記
+  deleteMinFlag = !deleteMinFlag;
+  cout << "HP tree height = " << bst.getHeight() << endl << endl;
 };
 
 void task4() {

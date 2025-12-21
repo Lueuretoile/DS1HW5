@@ -42,8 +42,8 @@ class BST {
   void clear();   // 清空BST
   void insert(int hp, int id);    // public插入函數
   int getHeight() const;
+  int getMaxHP() const;
   void rangeSearch(int min, int max, vector<int>& results, int& visitedCount) const;
-
 
   vector<int> deleteMin();
   vector<int> deleteMax();
@@ -110,9 +110,17 @@ int BST::height(BSTNode* t) const {
   return 1 + max(leftHeight, rightHeight);
 }
 
-  int BST::getHeight() const {
-    return height(root_m);
-  };
+int BST::getHeight() const {
+  return height(root_m);
+};
+
+int BST::getMaxHP() const {
+  BSTNode* maxNode = findMax(root_m);
+  if (maxNode != nullptr) {
+    return maxNode->hp;
+  }
+  return -1; // 樹為空時回傳-1
+}
 
 BSTNode* BST::findMin(BSTNode* t) const {
   if (t == nullptr) {
@@ -422,15 +430,22 @@ void task1() {
 
 int task2_RangeInput() {
   int inputHP = -1;
+  if (bst.isEmpty()) return 0;
+  int currentMaxHP = bst.getMaxHP();
   while (true) {
     cout <<  endl << "Input a non-negative integer: ";
     if (cin >> inputHP) {
-      if (inputHP >= 0) {
-        return inputHP;
-        break;
+      if (inputHP < 0) {
+        cout << endl << "### It is NOT a non-negative integer. ###" << endl;
+        cout << "Try again: ";
+        continue;
       }
-      cout << endl << "### It is NOT a non-negative integer. ###" << endl;
-      cout << "Try again: ";
+      if (inputHP > currentMaxHP) {
+        cout << endl << "### It is NOT in [0, " << currentMaxHP << "]. ###" << endl;
+        cout << "Try again: ";
+        continue;
+      }
+      return inputHP;
     } else {
       cin.clear();
       string dummy;

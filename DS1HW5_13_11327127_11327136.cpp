@@ -238,14 +238,14 @@ void BST::buildBalancedTree() {
   inorderCollect(root_m);
 
   if (inorderNodes.empty()) return;
-
+  
   root_m = buildBalanced(0, inorderNodes.size() - 1);
 }
 
 void BST::printLevelOrder() {
   if (root_m == nullptr) return;
 
-  cout << "HP tree:" << endl;
+  cout << endl << "HP tree:" << endl;
 
   vector<BSTNode*> q;
   q.push_back(root_m);
@@ -441,6 +441,9 @@ void task2() {
   int minHP, maxHP;
   minHP = task2_RangeInput();
   maxHP = task2_RangeInput();
+  if (minHP > maxHP) {
+    swap(minHP, maxHP);
+  }
   // 範圍檢索
   vector<int> results;
   int visitedCount = 0;

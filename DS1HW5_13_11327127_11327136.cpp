@@ -504,7 +504,28 @@ void task3() {
 
   // 切換刪除標記
   deleteMinFlag = !deleteMinFlag;
-  cout << "HP tree height = " << bst.getHeight() << endl << endl;
+  cout << "\t#\tName\t\t\tType 1\t\tTotal\tHP\tAttack\tDefense\tSp. Atk\tSp. Def" << endl;
+  for (size_t i = 0; i < deletedIDs.size(); i++) {
+    int idx = deletedIDs[i];
+    Pokemon& p = pokemonDatabase[idx];
+    cout << "[" << setw(3) << (i + 1) << "]\t" << p.id << "\t" << p.name;
+    if (p.name.length() < 8) cout << "\t\t\t";
+    else if (p.name.length() > 16) cout << "\t";
+    else cout << "\t\t";
+    cout << p.type1;
+    if (p.type1.length() >= 8) cout << "\t";
+    else cout << "\t\t";
+    cout << p.total << "\t" << p.HP << "\t"
+         << p.attack << "\t" << p.defense << "\t"
+         << p.spAtk << "\t" << p.spDef << endl;
+  }
+
+  if (!bst.isEmpty()) {
+    cout << "HP tree height = " << bst.getHeight() << endl << endl;
+  } else {
+    cout << "----- Execute Mission 1 first! -----" << endl << endl;
+  }
+
 };
 
 void task4() {

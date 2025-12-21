@@ -297,6 +297,8 @@ void ReadInput(int &command) {
     cin.clear();
     string dummy;
     getline(cin, dummy);
+    command = -1;
+    cout << endl << "Command does not exist!" << endl << endl;
     return;
   }
 
@@ -441,7 +443,7 @@ int task2_RangeInput() {
         continue;
       }
       if (inputHP > currentMaxHP) {
-        cout << endl << "### It is NOT in [0, " << currentMaxHP << "]. ###" << endl;
+        cout << endl << "### It is NOT in [0," << currentMaxHP << "]. ###" << endl;
         cout << "Try again: ";
         continue;
       }

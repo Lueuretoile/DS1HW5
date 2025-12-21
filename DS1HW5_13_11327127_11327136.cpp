@@ -22,7 +22,7 @@ struct Pokemon {
   int generation;
   bool legendary;
 };
-
+extern vector<Pokemon> pokemonDatabase;
 struct BSTNode {
   int hp;
   vector<int> pokemonIDs;
@@ -63,8 +63,9 @@ class BST {
   BSTNode* removeMin(BSTNode* t, vector<int>& deletedIDs);    // 移除最小節點
   BSTNode* removeMax(BSTNode* t, vector<int>& deletedIDs);    // 移除最大節點
   int height(BSTNode* t) const;
-  void inorderCollect();   // 走訪收集所有節點
-  BSTNode* buildBalanced();    // build balanced tree
+  void inorderCollect(BSTNode* t);   // 走訪收集所有節點
+  BSTNode* buildBalanced(int left, int right);    // build balanced tree
+  vector<BSTNode*> inorderNodes;
 };
 
 void BST::deleteSubtree(BSTNode* t) {
@@ -212,16 +213,69 @@ void BST::rangeSearch(int min, int max, vector<int>& results, int& visitedCount)
   rangeSearch(root_m, min, max, visitedCount, results);
 }
 
-void BST::inorderCollect() {
+vector<BSTNode*> inorderNodes;
+void BST::inorderCollect(BSTNode* t) {
+  if (t == nullptr) return;
+  inorderCollect(t->left);
+  inorderNodes.push_back(t);
+  inorderCollect(t->right);
 }
 
-BSTNode* BST::buildBalanced() {
+BSTNode* BST::buildBalanced(int left, int right) {
+  if (left > right) return nullptr;
+
+  int mid = (left + right) / 2;
+  BSTNode* root = inorderNodes[mid];
+
+  root->left = buildBalanced(left, mid - 1);
+  root->right = buildBalanced(mid + 1, right);
+
+  return root;
 }
 
 void BST::buildBalancedTree() {
+  inorderNodes.clear();
+  inorderCollect(root_m);
+
+  if (inorderNodes.empty()) return;
+
+  root_m = buildBalanced(0, inorderNodes.size() - 1);
 }
 
 void BST::printLevelOrder() {
+  if (root_m == nullptr) return;
+
+  cout << "HP tree:" << endl;
+
+  vector<BSTNode*> q;
+  q.push_back(root_m);
+
+  int level = 1;
+
+  while (!q.empty()) {
+    int size = q.size();
+    cout << "<level " << level << "> ";
+
+    for (int i = 0; i < size; i++) {
+      BSTNode* cur = q[i];
+
+      // (HP, id|id|id)
+      cout << "(" << cur->hp << ", ";
+      for (size_t k = 0; k < cur->pokemonIDs.size(); k++) {
+        int idx = cur->pokemonIDs[k];
+        cout << pokemonDatabase[idx].id;
+        if (k + 1 < cur->pokemonIDs.size()) cout << "|";
+      }
+      cout << ") ";
+
+      if (cur->left) q.push_back(cur->left);
+      if (cur->right) q.push_back(cur->right);
+    }
+
+    cout << endl;
+    q.erase(q.begin(), q.begin() + size);
+    level++;
+  }
 }
 
 void task1();
@@ -454,5 +508,14 @@ void task3() {
 };
 
 void task4() {
+  if (bst.isEmpty()) {
+    cout << endl
+         << "----- Execute Mission 1 first! -----"
+         << endl << endl;
+    return;
+  }
 
-};
+  bst.buildBalancedTree();
+  bst.printLevelOrder();
+  cout << endl;
+}

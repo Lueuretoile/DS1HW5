@@ -340,15 +340,21 @@ int main() {
 }
 
 void task1() {
-  string fileID = getInputFileID();
-  if (fileID.empty()) {
-    return;
-  }
-  string inputFileName = "input" + fileID + ".txt";
-  ifstream inFile(inputFileName);
-  if (!inFile) {
-    cout << endl << "### " << inputFileName << " does not exist! ###" << endl << endl;
-    return;
+  bool fileExists = false;
+  while (!fileExists) {
+    string fileID = getInputFileID();
+    if (fileID.empty()) {
+      return;
+    }
+    string inputFileName = "input" + fileID + ".txt";
+    ifstream inFile(inputFileName);
+    if (!inFile) {
+      cout << endl << "### " << inputFileName << " does not exist! ###" << endl << endl;
+      continue;
+    } else {
+      fileExists = true;
+    }
+
   }
 
   // 清空之前的資料

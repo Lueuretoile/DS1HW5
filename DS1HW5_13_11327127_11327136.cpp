@@ -435,7 +435,18 @@ void task2() {
 };
 
 void task3() {
+  if (pokemonDatabase.empty() || bst.isEmpty()) {
+    cout << endl << "----- Execute Mission 1 first! -----" << endl << endl;
+    return;
+  }
 
+  // 根據 deleteMinFlag 決定刪除最小或最大節點
+  vector<int> deletedIDs;
+  if (deleteMinFlag) {
+    deletedIDs = bst.deleteMin();
+  } else {
+    deletedIDs = bst.deleteMax();
+  }
 };
 
 void task4() {

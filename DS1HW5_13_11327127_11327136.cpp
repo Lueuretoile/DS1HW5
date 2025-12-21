@@ -431,7 +431,7 @@ void task1() {
 int task2_RangeInput() {
   int inputHP = -1;
   if (bst.isEmpty()) return 0;
-  int currentMaxHP = bst.getMaxHP();
+  int currentMaxHP = bst.getMaxHP() * 2;
   while (true) {
     cout <<  endl << "Input a non-negative integer: ";
     if (cin >> inputHP) {

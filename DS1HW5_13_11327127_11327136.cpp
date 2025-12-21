@@ -254,19 +254,19 @@ void BST::printLevelOrder() {
 
   while (!q.empty()) {
     int size = q.size();
-    cout << "<level " << level << "> ";
+    cout << "<level " << level << ">";
 
     for (int i = 0; i < size; i++) {
       BSTNode* cur = q[i];
 
       // (HP, id|id|id)
-      cout << "(" << cur->hp << ", ";
+      cout << " (" << cur->hp << ", ";
       for (size_t k = 0; k < cur->pokemonIDs.size(); k++) {
         int idx = cur->pokemonIDs[k];
         cout << pokemonDatabase[idx].id;
         if (k + 1 < cur->pokemonIDs.size()) cout << "|";
       }
-      cout << ") ";
+      cout << ")";
 
       if (cur->left) q.push_back(cur->left);
       if (cur->right) q.push_back(cur->right);
@@ -400,19 +400,15 @@ void task1() {
     index++;
   }
   inFile.close();
-  cout << "\t#\tName\t\t\tType 1\t\tHP" << endl;
+  cout << "\t#\tName" << setw(22) << "\tType 1" << setw(7) << "\tHP" << endl;
   for (size_t i = 0; i < pokemonDatabase.size(); i++) {
-    cout << "[" << setw(3) << (i+1) << "]\t"
-         << pokemonDatabase[i].id << "\t"
-         << pokemonDatabase[i].name;
-    if (pokemonDatabase[i].name.length() < 8) cout << "\t\t\t";
-    else if (pokemonDatabase[i].name.length() > 16) cout << "\t";
-    else cout << "\t\t";
-    cout << pokemonDatabase[i].type1;
-    if (pokemonDatabase[i].type1.length() >= 8) cout << "\t";
-  else cout << "\t\t";
-    cout << pokemonDatabase[i].HP << "\t" << endl;
-  }
+  cout << "[" << setw(3) << right << (i + 1) << "]\t"
+       << pokemonDatabase[i].id << "\t"
+       << setw(20) << left << pokemonDatabase[i].name << "\t"
+       << setw(10) << left << pokemonDatabase[i].type1 << "\t"
+       << setw(6) << left << pokemonDatabase[i].HP
+       << endl;
+  } 
   cout << "HP tree height = " << bst.getHeight() << endl << endl;
 };
 
@@ -470,20 +466,18 @@ void task2() {
     }
   }
   // output :
-  cout << "\t#\tName\t\t\tType 1\t\tTotal\tHP\tAttack\tDefense" << endl;
+  cout << "\t#\t" << setw(19) << left << "Name" << "\t"
+       << setw(10) << left << "Type 1" << "\t"
+       << "Total\tHP\tAttack\tDefense" << endl;
   for (size_t co = 0; co < results.size(); co++) {
     int idx = results[co];
     Pokemon& p = pokemonDatabase[idx];
-    cout << "[" << setw(3) << (co + 1) << "]\t"
-         << p.id << "\t" << p.name;
-    if (p.name.length() < 8) cout << "\t\t\t";
-    else if (p.name.length() > 16) cout << "\t";
-    else cout << "\t\t";
-    cout << p.type1;
-    if (p.type1.length() >= 8) cout << "\t";
-    else cout << "\t\t";
-    cout << p.total << "\t" << p.HP << "\t"
-         << p.attack << "\t" << p.defense << endl;
+    cout << "[" << setw(3) << right << (co + 1) << "]\t"
+         << p.id << "\t" 
+         << setw(20) << left << p.name << "\t"
+         << setw(10) << left << p.type1 << "\t"
+         << setw(6) << left << p.total << "\t"
+         << p.HP << "\t" << p.attack << "\t" << p.defense << endl;
   }
   cout << "Number of visited nodes = " << visitedCount << endl << endl;
 };
@@ -504,20 +498,19 @@ void task3() {
 
   // 切換刪除標記
   deleteMinFlag = !deleteMinFlag;
-  cout << "\t#\tName\t\t\tType 1\t\tTotal\tHP\tAttack\tDefense\tSp. Atk\tSp. Def" << endl;
+  cout << endl << "\t#\t" << setw(19) << left << "Name" << "\t"
+       << setw(10) << left << "Type 1" << "\t"
+       << "Total\tHP\tAttack\tDefense\tSp. Atk\tSp. Def" << endl;
   for (size_t i = 0; i < deletedIDs.size(); i++) {
     int idx = deletedIDs[i];
     Pokemon& p = pokemonDatabase[idx];
-    cout << "[" << setw(3) << (i + 1) << "]\t" << p.id << "\t" << p.name;
-    if (p.name.length() < 8) cout << "\t\t\t";
-    else if (p.name.length() > 16) cout << "\t";
-    else cout << "\t\t";
-    cout << p.type1;
-    if (p.type1.length() >= 8) cout << "\t";
-    else cout << "\t\t";
-    cout << p.total << "\t" << p.HP << "\t"
-         << p.attack << "\t" << p.defense << "\t"
-         << p.spAtk << "\t" << p.spDef << endl;
+    cout << "[" << setw(3) << right<< (i + 1) << "]\t" << p.id << "\t" 
+         << setw(20) << left << p.name << "\t"
+         << setw(10) << left << p.type1 << "\t"
+         << setw(6) << left << p.total << "\t"
+         << p.HP << "\t" << p.attack << "\t" << p.defense << "\t"
+         << setw(6) << left << p.spAtk << "\t" \
+         << p.spDef << endl; 
   }
 
   if (!bst.isEmpty()) {

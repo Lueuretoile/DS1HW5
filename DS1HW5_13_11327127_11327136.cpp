@@ -238,7 +238,7 @@ void BST::buildBalancedTree() {
   inorderCollect(root_m);
 
   if (inorderNodes.empty()) return;
-  
+
   root_m = buildBalanced(0, inorderNodes.size() - 1);
 }
 
@@ -410,6 +410,7 @@ void task1() {
        << endl;
   } 
   cout << "HP tree height = " << bst.getHeight() << endl << endl;
+  deleteMinFlag = true;
 };
 
 int task2_RangeInput() {
@@ -533,6 +534,7 @@ void task4() {
   }
 
   bst.buildBalancedTree();
+  deleteMinFlag = true;
   bst.printLevelOrder();
   cout << endl;
 }
